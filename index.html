@@ -15,9 +15,15 @@
       overflow: hidden;
     }
     .chuck-stuff .chuck-image {
+      margin-left: 20px;
+    }
+    .chuck-stuff .chuck-image img, .image-credit{
       max-width: 250px;
       max-height: 250px;
-      margin-left: 20px;
+    }
+    .image-credit {
+      display: block;
+      color: #CCC;
     }
   </style>
 </head>
@@ -25,30 +31,49 @@
 
   <h2>Notorious Norris</h2>
 
-  <button class="next_joke waves-effect waves-light btn blue darken-4">
+  <button class="next_joke waves-effect waves-light btn brown darken-2">
     <i class="material-icons right">skip_next</i> Next Joke
   </button>
   <div class="chuck-stuff">
-    <img class="right chuck-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Chuck_Norris%2C_The_Delta_Force_1986_-_downsampled.jpg/1024px-Chuck_Norris%2C_The_Delta_Force_1986_-_downsampled.jpg">
+    <div class="right chuck-image">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Chuck_Norris%2C_The_Delta_Force_1986_-_downsampled.jpg/1024px-Chuck_Norris%2C_The_Delta_Force_1986_-_downsampled.jpg">
+      <a class="image-credit" target="_blank" href="#"></a>
+    </div>
     <h3 id="chucky">Loading joke....</h3>
   </div>
 
 <script type="text/javascript">
 var getJoke = function(){
   var icndb = 'http://api.icndb.com/jokes/random?exclude=[explicit]';
-  var images = ['https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Chuck_Norris%2C_The_Delta_Force_1986_-_downsampled.jpg/1024px-Chuck_Norris%2C_The_Delta_Force_1986_-_downsampled.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/2/2d/NorrisCrop.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/5/5c/Chuck_Norris.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/3/30/Chuck_Norris_May_2015.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/e/e1/Chuck_Norris_%281976%29.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/3/3e/Chuck_Norris_2007_%28cropped%29.jpg'
+  var images = [
+    {
+      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Chuck_Norris%2C_The_Delta_Force_1986_-_downsampled.jpg/1024px-Chuck_Norris%2C_The_Delta_Force_1986_-_downsampled.jpg',
+      author: 'Tomer T'},
+    {
+      src: 'https://upload.wikimedia.org/wikipedia/commons/2/2d/NorrisCrop.jpg',
+      author: 'Craig Michaud'},
+    {
+      src: 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Chuck_Norris.jpg'},
+    {
+      src: 'https://upload.wikimedia.org/wikipedia/commons/3/30/Chuck_Norris_May_2015.jpg'},
+    {
+      src: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/Chuck_Norris_%281976%29.jpg',
+      author: 'Alan Light'},
+    {
+      src: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Chuck_Norris_2007_%28cropped%29.jpg'}
   ];
 
   $.getJSON(icndb, function(data){
     var joke = data['value']['joke'];
     $('#chucky').html(joke);
     var r = Math.floor( Math.random() * images.length );
-    $('.chuck-image').attr('src', images[r]);
+    $('.chuck-image img').attr('src', images[r].src);
+    $('.image-credit').attr('href', images[r].src);
+    if(images[r].author) {
+      $('.image-credit').text('Photo: '+images[r].author).show();
+    } else {
+      $('.image-credit').text('').hide();
+    }
   });
 };
 
